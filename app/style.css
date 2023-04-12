@@ -1,0 +1,14 @@
+.wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid gray;
+  }
+  
+  .container {
+    background-color: white;
+  }
+  
+  .barCompleted {
+    background-color: #1ABC9C;
+  }
