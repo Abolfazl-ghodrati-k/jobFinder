@@ -5,7 +5,6 @@ import {
   InputAdornment,
   Toolbar,
 } from "@mui/material";
-import { useNavigate } from "@remix-run/react";
 import SearchIcon from "@mui/icons-material/Search";
 import { Search, StyledInputBase } from "./styledComponents";
 import Header from "./Header";
@@ -13,8 +12,10 @@ import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 import RenderMobileMenu from "./RenderMobileMenu";
 import RenderMenu from "./RenderMenu";
+import { User } from "@supabase/supabase-js";
 
 type Props = {
+  user: User | null;
   positionName: string;
   handlepositionName: (e: React.ChangeEvent<HTMLInputElement>) => void;
   SearchforJob: () => void;
@@ -34,6 +35,7 @@ type Props = {
 };
 
 function Body({
+  user,
   anchorEl,
   isMenuOpen,
   handleMenuClose,
@@ -79,6 +81,7 @@ function Body({
             </Search>
             <Box sx={{ flexGrow: 1 }} />
             <DesktopNav
+              user={user}
               openNotifs={openNotifs}
               menuId={menuId}
               handleProfileMenuOpen={handleProfileMenuOpen}
@@ -89,6 +92,7 @@ function Body({
             />
           </Toolbar>
           <RenderMobileMenu
+            user={user}
             handleMobileMenuClose={handleMobileMenuClose}
             handleProfileMenuOpen={handleProfileMenuOpen}
             isMobileMenuOpen={isMobileMenuOpen}
@@ -97,6 +101,7 @@ function Body({
             openNotifs={openNotifs}
           />
           <RenderMenu
+            user={user}
             anchorEl={anchorEl}
             menuId={menuId}
             isMenuOpen={isMenuOpen}

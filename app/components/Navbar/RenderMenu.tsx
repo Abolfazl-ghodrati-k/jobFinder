@@ -1,7 +1,8 @@
 import { Menu, MenuItem } from "@mui/material";
-import React from "react";
+import { User } from "@supabase/supabase-js";
 
 type Props = {
+  user: User | null;
   anchorEl: HTMLElement | null;
   menuId: string;
   isMenuOpen: boolean;
@@ -11,6 +12,7 @@ type Props = {
 };
 
 function RenderMenu({
+  user,
   anchorEl,
   menuId,
   isMenuOpen,

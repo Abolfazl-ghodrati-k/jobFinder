@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -28,6 +28,19 @@ function LoginPage({ signIn, signUp }: AuthProps) {
   const [error, seterror] = useState("");
   const formikRef = useRef(null);
 
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      const onSignup = JSON.parse(localStorage.getItem("ONSIGNUP")!);
+      setIsSignup(onSignup);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
   const SignupSchema = Yup.object().shape({
     fullName: Yup.string()
       .min(5, "Too Short!")
@@ -49,6 +62,7 @@ function LoginPage({ signIn, signUp }: AuthProps) {
   });
 
   const handleToggle = () => {
+    localStorage.setItem("ONSIGNUP", JSON.stringify(!isSignup));
     setIsSignup((prev) => !prev);
     seterror("");
     formikRef.current?.resetForm();

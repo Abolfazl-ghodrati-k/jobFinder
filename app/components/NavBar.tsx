@@ -1,8 +1,9 @@
 import * as React from "react";
 import { useNavigate } from "@remix-run/react";
 import Body from "./Navbar/Body";
+import { User } from "@supabase/supabase-js";
 
-export default function NavBar() {
+export default function NavBar({ user }: { user: User | null }) {
   const [positionName, setpositionName] = React.useState<string>("");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -58,6 +59,7 @@ export default function NavBar() {
 
   return (
     <Body
+      user={user}
       mobileMoreAnchorEl={mobileMoreAnchorEl}
       isMobileMenuOpen={isMobileMenuOpen}
       handleMobileMenuClose={handleMobileMenuClose}

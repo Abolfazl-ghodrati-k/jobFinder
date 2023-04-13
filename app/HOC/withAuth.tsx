@@ -15,23 +15,24 @@ export type AuthProps = LayoutProps & {
 export default function withAuth(Component: React.ComponentType<AuthProps>) {
   return ({ supabase, signIn, signOut, signUp }: LayoutProps) => {
     const navigate = useNavigate();
-    const [loading, setloading] = useState(false);
+    const [loading, setloading] = useState(true);
+    const [Navigated, setNavigated] = useState(false);
 
     async function checkUser() {
       const {
         data: { session },
-        
       } = await supabase.auth.getSession();
-      console.log(session)
       setloading(false);
       if (!session) {
         if ((Component as any).displayName === "login_page") {
           return;
         } else {
+          setNavigated(true);
           navigate("/entry");
         }
       } else {
         if ((Component as any).displayName === "login_page") {
+          setNavigated(true);
           navigate("/");
         } else {
           return;
@@ -45,9 +46,9 @@ export default function withAuth(Component: React.ComponentType<AuthProps>) {
 
     return (
       <>
-        {loading ? (
+        {loading === true ? (
           <div>loading ...</div>
-        ) : (
+        ) : loading === false && !Navigated ? (
           <Component
             args={"session"}
             supabase={supabase}
@@ -55,7 +56,7 @@ export default function withAuth(Component: React.ComponentType<AuthProps>) {
             signIn={signIn}
             signOut={signOut}
           />
-        )}
+        ) : null}
       </>
     );
   };
